@@ -65,6 +65,8 @@ class ClientsData(BaseModel):
 def predict_batch(data: ClientsData):
     # Преобразуем входные данные в DataFrame
     df = pd.DataFrame([client.dict() for client in data.clients])
+    if df.empty:
+        raise HTTPException(status_code=400, detail="Нет данных для предсказания")
 
     # Группируем по Geography, чтобы для каждой группы использовать нужную модель
     results = []
